@@ -28,11 +28,6 @@ public class LoginUser implements UserDetails {
 	}
 	
 	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return AuthorityUtils.NO_AUTHORITIES;
-	}
-	
-	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
@@ -50,5 +45,13 @@ public class LoginUser implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+	
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		if(this.user.getRole().equals("管理者")) {
+			return AuthorityUtils.createAuthorityList("ADMIN", "GENERAL");
+		}
+		return AuthorityUtils.createAuthorityList("GENERAL");
 	}
 }
